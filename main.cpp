@@ -1,4 +1,5 @@
 #include "game.hpp"
+#pragma once 
 
 int main(int argc, char *argv[]){
     Game game;

@@ -1,0 +1,18 @@
+Builder Pattern - Humania.cpp  
+
+The first design pattern that we have implemented is the builder pattern. The file Humania.cpp controls all the functions of the game. It
+is where all the objects are created and and functions according to them are implemented. 
+
+---------------------------------------------------------------------------------------------
+Singleton Pattern - Bombs,tanks and all that
+
+The assets and the objects that are moving downwards are implemented on this pattern. All the assests are being generated and then destroyed 
+it works on this pattern
+
+---------------------------------------------------------------------------------------------
+
+Chain-of-responsibility Pattern - game.cpp
+
+Now this pattern is of the game.cpp class this means that the whole project code and the controls along with the arow keys are being
+controlled by this game.cpp class. The file also makes use of the sound that are added into the game along with the mixer
+

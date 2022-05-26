@@ -1,0 +1,586 @@
+#include <iostream>
+#include "HUMania.hpp"
+#include <SDL_mixer.h>
+#pragma once
+
+SDL_Rect HUMania::get_tank_coords(int tank_no)
+{//return the cordinates of tank according to whihc tank it is
+    if (tank_no == 0)
+    {
+        return tanks[0]->getcoords();
+    }
+    else
+    {
+        return tanks[1]->getcoords();
+    }
+};
+//vector<TNT2 *> TNT2s;
+void HUMania::clear_object()
+{//This function is used for clearing all the vectors from the screen
+    auto it1 = tanks.begin();
+    while (it1 != tanks.end())
+    {
+        // remove odd numbers
+        if (*it1)
+        {
+            // `erase()` invalidates the iterator, use returned iterator
+            it1 = tanks.erase(it1);
+        }
+        // Notice that the iterator is incremented only on the else part (why?)
+        else {
+            ++it1;
+        }
+    }
+    auto it2 = firecrack.begin();
+    while (it2 != firecrack.end())
+    {
+        // remove odd numbers
+        if (*it2)
+        {
+            // `erase()` invalidates the iterator, use returned iterator
+            it2 = firecrack.erase(it2);
+        }
+        // Notice that the iterator is incremented only on the else part (why?)
+        else {
+            ++it2;
+        }
+    }
+    
+    auto it3 = punches.begin();
+    while (it3 != punches.end())
+    {
+        // remove odd numbers
+        if (*it3)
+        {
+            // `erase()` invalidates the iterator, use returned iterator
+            it3 = punches.erase(it3);
+        }
+        // Notice that the iterator is incremented only on the else part (why?)
+        else {
+            ++it3;
+        }
+    }
+
+    auto it4 = missiles.begin();
+    while (it4 != missiles.end())
+    {
+        // remove odd numbers
+        if (*it4)
+        {
+            // `erase()` invalidates the iterator, use returned iterator
+            it4 = missiles.erase(it4);
+        }
+        // Notice that the iterator is incremented only on the else part (why?)
+        else {
+            ++it4;
+        }
+    }
+
+    auto it5 = bullets.begin();
+    while (it5 != bullets.end())
+    {
+        // remove odd numbers
+        if (*it5)
+        {
+            // `erase()` invalidates the iterator, use returned iterator
+            it5 = bullets.erase(it5);
+        }
+        // Notice that the iterator is incremented only on the else part (why?)
+        else {
+            ++it5;
+        }
+    }
+
+    auto it6 = TNTs.begin();
+    while (it6 != TNTs.end())
+    {
+        // remove odd numbers
+        if (*it6)
+        {
+            // `erase()` invalidates the iterator, use returned iterator
+            it6 = TNTs.erase(it6);
+        }
+        // Notice that the iterator is incremented only on the else part (why?)
+        else {
+            ++it6;
+        }
+    }
+
+    auto it7 = heart.begin();
+    while (it7 != heart.end())
+    {
+        // remove odd numbers
+        if (*it7)
+        {
+            // `erase()` invalidates the iterator, use returned iterator
+            it7 = heart.erase(it7);
+        }
+        // Notice that the iterator is incremented only on the else part (why?)
+        else {
+            ++it7;
+        }
+    }
+
+    auto it8 = crows.begin();
+    while (it8 != crows.end())
+    {
+        // remove odd numbers
+        if (*it8)
+        {
+            // `erase()` invalidates the iterator, use returned iterator
+            it8 = crows.erase(it8);
+        }
+        // Notice that the iterator is incremented only on the else part (why?)
+        else {
+            ++it8;
+        }
+    }
+    
+    auto it9 = TNT2s.begin();
+    while (it9 != TNT2s.end())
+    {
+        // remove odd numbers
+        if (*it9)
+        {
+            // `erase()` invalidates the iterator, use returned iterator
+            it9 = TNT2s.erase(it9);
+        }
+        // Notice that the iterator is incremented only on the else part (why?)
+        else {
+            ++it9;
+        }
+    }
+}
+
+void HUMania::drawObjects()
+{// Here we are looping over length of every vector been created and calling draw to make them appear on screen
+    for (int i = 0; i < tanks.size(); i++)
+    { 
+        tanks[i]->draw();
+    }
+
+    for (int i = 0; i < firecrack.size(); i++)
+    { 
+        firecrack[i]->draw();
+    }
+    for (int i = 0; i < punches.size(); i++)
+    { 
+        punches[i]->draw();
+    }
+
+    for (int i = 0; i < missiles.size(); i++)
+    { 
+        missiles[i]->draw();
+    }
+
+    for (int i = 0; i < bullets.size(); i++)
+    { 
+        bullets[i]->draw();
+    }
+
+    for (int i = 0; i < TNTs.size(); i++)
+    { 
+        TNTs[i]->draw();
+    }
+    for (int i = 0; i < TNT2s.size(); i++)
+    { 
+        TNT2s[i]->draw();
+    }
+    for (int i = 0; i < heart.size(); i++)
+    { 
+        heart[i]->draw();
+    }
+    for (int i = 0; i < crows.size(); i++)
+    { 
+        crows[i]->draw();
+    }
+}
+
+void HUMania::createObject(int x, int y)
+{//creating random objects falling from sky in this function
+    int random = 1 + (rand() % 5); // creating random values from 1 till 4
+
+    if (random == 3)
+    { // if the value generated by random is 3 create a firecracker object and push it to the vector firecracker
+        firecracker *firecrack1 = new firecracker(x, y);
+        firecrack.push_back(firecrack1);
+    }
+
+    if (random == 4)
+    { // if the value generated by random is 3 create a TNT object and push it to the vector TNT
+        TNT *TNT1 = new TNT(x, y);
+        TNTs.push_back(TNT1);
+    }
+
+    if (random == 5)
+    { // if the value generated by random is 3 create a TNT object and push it to the vector TNT
+        TNT2 *TNT_2 = new TNT2(x, y);
+        TNT2s.push_back(TNT_2);
+    }
+}
+
+void HUMania::createPunch(int x, int y, char tank_pos)//this created punch based on the key pressed and tank position
+{
+    Punch *punch1 = new Punch(x, y, tank_pos);
+    punches.push_back(punch1);
+}
+
+void HUMania::createMissile(int x, int y, char tank_pos)//this created missile based on the key pressed and tank position
+{
+    Missile *missile1 = new Missile(x, y, tank_pos);
+    missiles.push_back(missile1);
+}
+
+void HUMania::createBullets(int x, int y, char tank_pos)//this created bullets based on the key pressed and tank position
+{
+    Bullets *bullets1 = new Bullets(x, y, tank_pos);
+    bullets.push_back(bullets1);
+}
+
+void HUMania::initialize()//this initialize function created the tank, heart and crow to appear on the game play screen
+//to appear as soon as game starts.
+{
+    SDL_Rect values = {47, 477, 125, 93};
+    Tank *p1 = new Tank(0, values, 50, 350);//create left tank
+    tanks.push_back(p1);
+
+    // creating the hearts full health initially
+    SDL_Rect heart_l_values = {1015, 1287, 256, 43};
+    life *l1 = new life('l', heart_l_values, 40, 20); // at 0th index heart is left heart
+    heart.push_back(l1);
+
+    SDL_Rect value1 = {1886, 543, 257, 161};
+    Tank *p2 = new Tank(1, value1, 650, 350);//create right tank
+    tanks.push_back(p2);
+
+    // creating hearts for right tank as well
+    SDL_Rect heart_r_values = {1389, 1288, 257, 42};
+    life *l2 = new life('r', heart_r_values, 800, 20);
+    heart.push_back(l2);
+
+    //creating crows to animate background
+    Crow *c1 = new Crow(999, 60);
+    crows.push_back(c1);
+    Crow *c2 = new Crow(1200, 75);
+    crows.push_back(c2);
+    Crow *c3 = new Crow(1600, 85);
+    crows.push_back(c3);
+}
+
+void HUMania::detect_heart(char c, int times)
+{//this function detects and updates the src rect of each life
+    if (c == 'l')
+    {
+        heart[0]->update_times(times);
+        --(*heart[0]);//operatr overloading for deletion of hearts wrt to left tank
+    }
+
+    if (c == 'r')
+    {
+        heart[1]->update_times(times);
+        (*heart[1])--;//operatr overloading for deletion of hearts wrt to right tank
+    }
+}
+
+void HUMania::detect_collision_missiles(SDL_Rect a, char b)
+{//for the detction of missiles we iterate over the size of vector and check which tank missile it is.
+    for (int i = 0; i < missiles.size(); i++)
+    {
+        if (missiles[i]->get_tank_char() == 'l')
+        {
+            SDL_Rect v = missiles[i]->getcoords();
+            if (a.x + 190 <= v.x + v.w && v.x + v.w <= a.x + a.w) 
+            {//is the missile is in the region then we call delete the missile and make explosion effect to come
+                missiles[i]->delete_missile();
+            }
+            else if (missiles[i]->blast_it())//blast_it() return the hit state whther the missile has hitted or not.
+            {//this is to make smooth explosion happen as soon as the detction is happened.
+                missiles[i]->delete_missile();
+            }
+        }//same is done for right missile as for the left.
+        else if (missiles[i]->get_tank_char() == 'r')
+        {
+            SDL_Rect v = missiles[i]->getcoords();
+            if (a.x + 200 <= v.x + v.w && v.x + v.w <= a.x + a.w) 
+            {
+                missiles[i]->delete_missile();
+            }
+            else if (missiles[i]->blast_it())
+            {
+                missiles[i]->delete_missile();
+            }
+        }
+    }
+}
+
+void HUMania::detect_collision_punches(SDL_Rect a, char b)
+{//for the detction of punches we iterate over the size of vector and check which tank missile it is.
+    for (int i = 0; i < punches.size(); i++)
+    {
+        if (punches[i]->get_tank_char() == 'l')
+        {
+            SDL_Rect v = punches[i]->getcoords();
+            //the src rect of a is for the tank and v is for the punches
+            if (a.x + a.w / 2 <= v.x + v.w && v.x + v.w <= a.x + a.w)
+            {
+                punches[i]->delete_Punch();
+            }
+            else if (punches[i]->blast_it())//check if its a hit or not, means collision or not.
+            {
+                punches[i]->delete_Punch();
+            }
+        }
+
+        else if (punches[i]->get_tank_char() == 'r')
+        {
+            SDL_Rect v = punches[i]->getcoords();
+            if (a.x + a.w / 2 <= v.x + v.w && v.x + v.w <= a.x + a.w)//same is done for the right punch as for the left punch.
+            {
+                punches[i]->delete_Punch();
+            }
+            else if (punches[i]->blast_it())
+            {
+                punches[i]->delete_Punch();
+            }
+        }
+    }
+}
+
+bool HUMania::detect_collision_TNT(SDL_Rect a)
+{//this is detection of collisioon of falling object Tnt from sky with the tank
+    bool blast = false;//initailly blast is not taking place
+    for (int i = 0; i < TNTs.size(); i++)
+    {
+        SDL_Rect v = TNTs[i]->getcoords();//Tnt ky cordinates liyay
+        // if collision takes place, call delete missile
+        if (a.x <= v.x + v.w && v.x + v.w <= a.x + a.w &&
+            a.y + 40 <= v.y + v.h && v.y + v.h <= a.y + a.h) 
+        {
+            if (!TNTs[i]->blast_it())
+            {
+                blast = true;// if certain TNT in vector is not blasted, blast it based on collision
+            }
+            TNTs[i]->delete_TNT(v.x, v.y);//then delete it and produce explosion effect
+        }
+        else if (TNTs[i]->blast_it())
+        {
+            TNTs[i]->delete_TNT(v.x, v.y);
+        }
+    }
+    return blast;// return the blast state
+}
+
+bool HUMania::detect_collision_TNT2(SDL_Rect a)
+{//this is detection of collisioon of falling object Tnt from sky with the tank
+    bool blast = false;//initailly blast is not taking place
+    for (int i = 0; i < TNT2s.size(); i++)
+    {
+        SDL_Rect v = TNT2s[i]->getcoords();//Tnt ky cordinates liyay
+        if (a.x <= v.x + v.w && v.x + v.w <= a.x + a.w &&
+            a.y + 40 <= v.y + v.h && v.y + v.h <= a.y + a.h) 
+        {
+            if (!TNT2s[i]->blast_it())
+            {
+                blast = true;// if certain TNT in vector is not blasted, blast it based on collision
+            }
+            TNT2s[i]->delete_TNT2(v.x, v.y);//then delete it and produce explosion effect
+        }
+        else if (TNT2s[i]->blast_it())
+        {
+            TNT2s[i]->delete_TNT2(v.x, v.y);
+        }
+    }
+    return blast;// return the blast state
+}
+
+
+bool HUMania::detect_collision_firecracker(SDL_Rect a)
+{//this firecracker has same functionality as the TNT above
+    bool blast = false;
+    for (int i = 0; i < firecrack.size(); i++)
+    {
+        SDL_Rect v = firecrack[i]->getcoords();
+        // if collision takes place, call delete missile
+        if (a.x <= v.x + v.w && v.x + v.w <= a.x + a.w &&
+            a.y + 40 <= v.y + v.h && v.y + v.h <= a.y + a.h) 
+        {
+            if (!firecrack[i]->blast_it())
+            {
+                blast = true;
+            }
+            firecrack[i]->delete_firecracker(v.x, v.y);
+        }
+        else if (firecrack[i]->blast_it())
+        {
+            firecrack[i]->delete_firecracker(v.x, v.y);
+        }
+    }
+    return blast;
+}
+
+void HUMania::detect_collision_fire(SDL_Rect a, char b)
+{//this is for the detection of bullets 
+    for (int i = 0; i < bullets.size(); i++)
+    {
+        if (bullets[i]->get_tank_char() == 'l')
+        {
+            SDL_Rect v = bullets[i]->getcoords();
+           //src rect of a are for tank and v for the bullets 
+            if (a.x + 190 <= v.x + v.w && v.x + v.w <= a.x + a.w) 
+            {
+                cout<<"delete bullet is called"<<endl;
+                bullets[i]->delete_bullet();
+            }
+            else if (bullets[i]->blast_it())
+            {
+                bullets[i]->delete_bullet();
+            }
+        }
+//same is done for the right bullet as for the left bullet
+        else if (bullets[i]->get_tank_char() == 'r')
+        {
+            SDL_Rect v = bullets[i]->getcoords();
+            // if collision takes place, call delete missile
+            // a for tank, v for missile
+            if (a.x + 190 <= v.x + v.w && v.x + v.w <= a.x + a.w) // tank.x<=missile.x+missile.w
+            {
+                bullets[i]->delete_bullet();
+            }
+            else if (bullets[i]->blast_it())
+            {//we delete the bullets and make the animation of explosion pop out when the detction is taking place
+                bullets[i]->delete_bullet();
+            }
+        }
+    }
+}
+
+SDL_Rect HUMania::get_missile_coords(int tank_no)//this return the coordinates of missile to keep a count on the hits
+{
+    if (tank_no == 0)
+    {
+        return missiles[0]->getcoords();
+    }
+    else
+    {
+        return missiles[1]->getcoords();
+    }
+}
+
+void HUMania::moveobjects(SDL_Renderer *gRenderer, SDL_Texture *assets, SDL_Keycode key)
+{
+
+    if (key == SDLK_RIGHT)//if key pressed is right arrow key
+    {
+        
+            for (int i = 0; i < tanks.size(); i++)
+            { 
+                tanks[1]->move(key, 1);//then move right tank right
+            }
+        
+    }
+    if (key == SDLK_LEFT)// if left arrow key is pressed right tank will move to left
+    {
+        SDL_Rect right_t = get_tank_coords(1);
+        SDL_Rect left_t = get_tank_coords(0);
+        if(left_t.x+left_t.w+5<right_t.x){
+            for (int i = 0; i < tanks.size(); i++)
+            { 
+                tanks[1]->move(key, 1);// call the move function on right tank. 1 represents its right tank
+            }
+        }
+    }
+    //same is done for left tank, 0 represents left tank
+    if (key == SDLK_a)
+    {
+        for (int i = 0; i < tanks.size(); i++)
+        { 
+            tanks[0]->move(key, 0);
+        }
+    }
+    if (key == SDLK_d)
+    {
+        SDL_Rect right_t = get_tank_coords(1);
+        SDL_Rect left_t = get_tank_coords(0);
+        if(left_t.x+left_t.w+5<right_t.x){
+            for (int i = 0; i < tanks.size(); i++)
+            { 
+                tanks[0]->move(key, 0);
+            }
+        }
+    }
+}
+
+HUMania::~HUMania()
+{//this is the destructor where dynamiclaly created memory is deleted.
+    while (!firecrack.empty())
+    { 
+        firecracker *a = firecrack.front();
+        cout << "Deleting firecrackers!" << endl;
+        firecrack.erase(firecrack.begin()); // use the vector command .begin to pop out the first object and then erase it
+        delete a;
+    }
+
+    while (!tanks.empty())
+    { 
+        Tank *a = tanks.front();
+        cout << "Deleting tanks!" << endl;
+        tanks.erase(tanks.begin()); // use the vector command .begin to pop out the first object and then erase it
+        delete a;
+    }
+
+    while (!punches.empty())
+    { 
+        Punch *a = punches.front();
+        cout << "Deleting Punches!" << endl;
+        punches.erase(punches.begin()); // use the vector command .begin to pop out the first object and then erase it
+        delete a;
+    }
+
+    while (!missiles.empty())
+    { 
+        Missile *a = missiles.front();
+        cout << "Deleting Missiles!" << endl;
+        missiles.erase(missiles.begin()); // use the vector command .begin to pop out the first object and then erase it
+        delete a;
+    }
+
+    while (!bullets.empty())
+    { 
+        Bullets *a = bullets.front();
+        cout << "Deleting Bullets!" << endl;
+        bullets.erase(bullets.begin()); // use the vector command .begin to pop out the first object and then erase it
+        delete a;
+    }
+
+    while (!TNTs.empty())
+    { 
+        TNT *a = TNTs.front();
+        cout << "Deleting TNTs!" << endl;
+        TNTs.erase(TNTs.begin()); // use the vector command .begin to pop out the first object and then erase it
+        delete a;
+    }
+
+    while (!TNT2s.empty())
+    { 
+        TNT2 *a = TNT2s.front();
+        cout << "Deleting TNT2s!" << endl;
+        TNT2s.erase(TNT2s.begin()); // use the vector command .begin to pop out the first object and then erase it
+        delete a;
+    }
+
+    while (!crows.empty())
+    { 
+        Crow *a = crows.front();
+        cout << "Deleting crows!" << endl;
+        crows.erase(crows.begin()); // use the vector command .begin to pop out the first object and then erase it
+        delete a;
+    }
+    while (!heart.empty())
+    { 
+        life *a = heart.front();
+        cout << "Deleting Hearts!" << endl;
+        heart.erase(heart.begin()); // use the vector command .begin to pop out the first object and then erase it
+        delete a;
+    }
+    //all 9 memory has been deleted.
+}
